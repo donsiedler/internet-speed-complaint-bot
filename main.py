@@ -65,12 +65,23 @@ class InternetSpeedTwitterBot:
             time.sleep(2)  # Wait for next login page to load
 
         password_input = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div['
-                                                                '2]/div/div/div[2]/div[2]/div[1]/div/div/div['
-                                                                '3]/div/label/div/div[2]/div[1]/input')
+                                                            '2]/div/div/div[2]/div[2]/div[1]/div/div/div['
+                                                            '3]/div/label/div/div[2]/div[1]/input')
         password_input.send_keys(TWITTER_PASSWORD)
         log_in_button = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div['
                                                            '2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div')
         log_in_button.click()
+
+        # Send a tweet
+        time.sleep(5)  # Wait for Twitter main page to load
+        tweet_input = self.driver.find_element(By.CSS_SELECTOR, 'br[data-text="true"]')
+        tweet = f"Hey Internet Provider, why is my internet speed {self.down} down/{self.up} up" \
+                f" when I pay for {PROMISED_DOWNLOAD}down/{PROMISED_UPLOAD}up?"
+        tweet_input.send_keys(tweet)
+        tweet_button = self.driver.find_element(By.XPATH, "//*[@id='react-root']/div/div/div[2]/main/div/div/div/div["
+                                                          "1]/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div["
+                                                          "3]/div/div/div[2]/div[3]/div/span/span")
+        tweet_button.click()
 
 
 chrome_options = Options()
@@ -79,5 +90,5 @@ chrome_options.add_argument("--start-maximized")
 service = Service(ChromeDriverManager().install())
 
 bot = InternetSpeedTwitterBot(options=chrome_options, service=service)
-# bot.get_internet_speed()
+bot.get_internet_speed()
 bot.tweet_at_provider()
