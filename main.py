@@ -32,10 +32,10 @@ class InternetSpeedTwitterBot:
         time.sleep(45)
 
         # Get the test results
-        down_speed = self.driver.find_element(By.CSS_SELECTOR, "span.download-speed").text
-        up_speed = self.driver.find_element(By.CSS_SELECTOR, "span.upload-speed").text
-        print(f"Download speed: {down_speed} Mbps")
-        print(f"Upload speed: {up_speed} Mbps")
+        self.down = self.driver.find_element(By.CSS_SELECTOR, "span.download-speed").text
+        self.up = self.driver.find_element(By.CSS_SELECTOR, "span.upload-speed").text
+        print(f"Download speed: {self.down} Mbps")
+        print(f"Upload speed: {self.up} Mbps")
 
     def tweet_at_provider(self):
         pass
