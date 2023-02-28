@@ -2,6 +2,7 @@ import os
 import time
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -49,9 +50,23 @@ class InternetSpeedTwitterBot:
                                                          '2]/div/div/div[2]/div[2]/div/div/div/div[6]')
         next_button.click()
         time.sleep(2)  # Wait for next login page to load
+        try:
+            password_input = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div['
+                                                                '2]/div/div/div[2]/div[2]/div[1]/div/div/div['
+                                                                '3]/div/label/div/div[2]/div[1]/input')
+        except NoSuchElementException:  # Catch unusual activity modal
+            username_input_2 = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div['
+                                                                  '2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div['
+                                                                  '2]/label/div/div[2]/div/input')
+            username_input_2.send_keys("SiedlerApp")
+            confirm_button = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div['
+                                                                '2]/div/div/div[2]/div[2]/div[2]/div/div/div/div')
+            confirm_button.click()
+            time.sleep(2)  # Wait for next login page to load
+
         password_input = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div['
-                                                            '2]/div/div/div[2]/div[2]/div[1]/div/div/div['
-                                                            '3]/div/label/div/div[2]/div[1]/input')
+                                                                '2]/div/div/div[2]/div[2]/div[1]/div/div/div['
+                                                                '3]/div/label/div/div[2]/div[1]/input')
         password_input.send_keys(TWITTER_PASSWORD)
         log_in_button = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div['
                                                            '2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div')
