@@ -1,5 +1,6 @@
 import os
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -18,7 +19,12 @@ class InternetSpeedTwitterBot:
         self.up = 0
 
     def get_internet_speed(self):
-        pass
+        # Opens and runs the speed test
+        self.driver.get("https://www.speedtest.net/")
+        accept_cookies = self.driver.find_element(By.ID, "onetrust-accept-btn-handler")
+        accept_cookies.click()
+        test_start = self.driver.find_element(By.CSS_SELECTOR, "div.start-button a")
+        test_start.click()
 
     def tweet_at_provider(self):
         pass
