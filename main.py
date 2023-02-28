@@ -1,4 +1,6 @@
 import os
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -25,6 +27,15 @@ class InternetSpeedTwitterBot:
         accept_cookies.click()
         test_start = self.driver.find_element(By.CSS_SELECTOR, "div.start-button a")
         test_start.click()
+
+        # Wait for test to finish
+        time.sleep(45)
+
+        # Get the test results
+        down_speed = self.driver.find_element(By.CSS_SELECTOR, "span.download-speed").text
+        up_speed = self.driver.find_element(By.CSS_SELECTOR, "span.upload-speed").text
+        print(f"Download speed: {down_speed} Mbps")
+        print(f"Upload speed: {up_speed} Mbps")
 
     def tweet_at_provider(self):
         pass
